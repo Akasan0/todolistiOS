@@ -2,7 +2,7 @@
 //  Tache+CoreDataProperties.swift
 //  
 //
-//  Created by tplocal on 24/03/2024.
+//  Created by tplocal on 25/03/2024.
 //
 //
 
@@ -17,14 +17,16 @@ extension Tache {
     }
 
     @NSManaged public var adresse: String?
+    @NSManaged public var codePostal: String?
+    @NSManaged public var completeAdress: String?
     @NSManaged public var date: Date?
     @NSManaged public var desc: String?
     @NSManaged public var isImportant: Bool
     @NSManaged public var isTerminated: Bool
-    @NSManaged public var titre: String?
-    @NSManaged public var codePostal: String?
-    @NSManaged public var ville: String?
     @NSManaged public var pays: String?
-    @NSManaged public var completeAdress: String?
+    @NSManaged public var titre: String?
+    @NSManaged public var ville: String?
+    @NSManaged public var dateCreation: Date?
+    @NSManaged public var dateModif: Date?
 
 }
