@@ -18,4 +18,13 @@ class AlertPopupHelper{
         alertController.addAction(okAction)
         viewController.present(alertController, animated: true, completion: nil)
     }
+    
+    func showAlert(title: String, message: String, duration: Double = 2.0, viewController: UIViewController) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        viewController.present(alertController, animated: true, completion: nil)
+        
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + duration) {
+            alertController.dismiss(animated: true, completion: nil)
+        }
+    }
 }

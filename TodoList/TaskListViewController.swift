@@ -12,15 +12,19 @@ class TaskListViewController: UIViewController  {
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     @IBOutlet var tableView: UITableView!
+    @IBOutlet weak var sortControl: UISegmentedControl!
+    
     var taches: [Tache] = []
     var refreshController = UIRefreshControl()
+    var sortDesc: [NSSortDescriptor] = []
     
     func fetchtasks() ->[Tache] {
-        let triNormal : NSSortDescriptor = NSSortDescriptor(key: "isImportant", ascending: false)
         let fetchRequest: NSFetchRequest<Tache> = Tache.fetchRequest()
-        fetchRequest.sortDescriptors = [triNormal]
+        //fetchRequest.sortDescriptors = sortDesc
+        print(sortDesc)
         do {
-            let tasks = try context.fetch(fetchRequest)
+            var tasks = try context.fetch(fetchRequest)
+            tasks.forEach{ tache in print(tache.isImportant)}
             return tasks // Returns the first Task entity, if found
         } catch {
             print("Error fetching Task: \(error)")
@@ -38,8 +42,24 @@ class TaskListViewController: UIViewController  {
         tableView.delegate = self
         tableView.dataSource = self
         taches = fetchtasks()
+        triNormal()
         // Setup
     }
+    
+    func triNormal(){
+        taches.sort{ $0.isImportant && !$1.isImportant}
+        taches.sort{ !$0.isTerminated && $1.isTerminated}
+    }
+    
+    func triDateEch(){
+        taches.sort{ $0.date! < $1.date!}
+        taches.sort{ !$0.isTerminated && $1.isTerminated}
+    }
+    
+    @IBAction func sortingControl(_ sender: UISegmentedControl) {
+        updateTasks()
+    }
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "detailSegue" {
@@ -64,6 +84,17 @@ class TaskListViewController: UIViewController  {
     
     func updateTasks() {
         taches = fetchtasks()
+        switch (sortControl.selectedSegmentIndex){
+        case 0:
+            print("0")
+            triNormal()
+        case 1 :
+            print("1")
+            triDateEch()
+        default :
+            print("default")
+            triNormal()
+        }
         tableView.reloadData()
         print("Updating tasks.")
     }
@@ -97,7 +128,29 @@ extension TaskListViewController: UITableViewDelegate, UITableViewDataSource {
             cell.imageView?.image = UIImage(systemName: "exclamationmark.2")?.withTintColor(.clear, renderingMode: .alwaysOriginal)
         }
         
+        if (tache.isTerminated){
+            cell.backgroundColor = .lightGray
+        } else {
+            cell.backgroundColor = .clear
+        }
+        
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let modify = UIContextualAction(style: .normal, title: "Modify") { [self] action, view, complete in
+            print("Modify")
+            tableView.beginUpdates()
+            CoreDataHandler.shared.tacheIsDone(tache: taches[indexPath.row])
+            taches = fetchtasks()
+            tableView.reloadData()
+            tableView.endUpdates()
+            complete(true)
+            
+        }
+        
+        return UISwipeActionsConfiguration(actions: [modify])
     }
     
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {

@@ -5,6 +5,8 @@
         <attribute name="codePostal" optional="YES" attributeType="String"/>
         <attribute name="completeAdress" optional="YES" attributeType="String"/>
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="dateCreation" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="dateModif" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="desc" optional="YES" attributeType="String"/>
         <attribute name="isImportant" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="isTerminated" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>

@@ -10,6 +10,7 @@ import MapKit
 
 class ViewTaskViewController: UIViewController, UITextViewDelegate {
     var editMode: Bool = false
+    var isOkToEdit : Bool = true
     var tache: Tache?
     @IBOutlet var editOutlets: [UIView]!
     
@@ -17,6 +18,7 @@ class ViewTaskViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var titreView: UITextField!
     @IBOutlet weak var separator: UILabel!
     @IBOutlet weak var separator1: UILabel!
+    @IBOutlet weak var separator2: UILabel!
     @IBOutlet weak var descriptionView: UITextView!
     @IBOutlet weak var dateEcheance: UIDatePicker!
     @IBOutlet weak var mapView: MKMapView!
@@ -28,6 +30,9 @@ class ViewTaskViewController: UIViewController, UITextViewDelegate {
     
     @IBOutlet weak var adresseSwitch: UISwitch!
     @IBOutlet weak var adresseButton: UIButton!
+    
+    @IBOutlet weak var importanteButton: UIButton!
+    @IBOutlet weak var importanteSwitch: UISwitch!
     
     @IBOutlet weak var adr: UITextField!
     @IBOutlet weak var cp: UITextField!
@@ -60,7 +65,7 @@ class ViewTaskViewController: UIViewController, UITextViewDelegate {
             descriptionView.text = tache?.desc
             descriptionView.isEditable = false
             descriptionView.heightAnchor.constraint(equalToConstant: descriptionView.contentSize.height).isActive = true
-
+            
             descriptionView.layer.borderWidth = 0
             
             dateEcheance.date = (tache?.date)!
@@ -75,6 +80,11 @@ class ViewTaskViewController: UIViewController, UITextViewDelegate {
             // Adresse loading
             adresseButton.isHidden = true
             adresseSwitch.isHidden = true
+            
+            //important
+            importanteButton.isHidden = true
+            importanteSwitch.isHidden = true
+            importanteSwitch.isOn = tache?.isImportant ?? false
             
             adresseOutlets.append(adr)
             adr.text = tache?.adresse
@@ -126,7 +136,7 @@ class ViewTaskViewController: UIViewController, UITextViewDelegate {
                     }
                 }
             }
-        }   
+        }
     }
     
     @IBAction func edit(_ sender: UIBarButtonItem) {
@@ -160,6 +170,9 @@ class ViewTaskViewController: UIViewController, UITextViewDelegate {
             adresseButton.isHidden = false
             adresseSwitch.isHidden = false
             
+            importanteButton.isHidden = false
+            importanteSwitch.isHidden = false
+            
             editButtons.isHidden = false
             
             mapView.isHidden = true
@@ -167,6 +180,9 @@ class ViewTaskViewController: UIViewController, UITextViewDelegate {
         }
     }
     
+    @IBAction func switchImportant(_ sender: Any) {
+        importanteSwitch.isOn = !importanteSwitch.isOn
+    }
     
     @IBAction func addAdressButton(_ sender: Any) {
         adresseSwitch.isOn = !adresseSwitch.isOn
@@ -192,39 +208,49 @@ class ViewTaskViewController: UIViewController, UITextViewDelegate {
         editMode = false
     }
     @IBAction func confirmerEdit(_ sender: Any) {
+        guard let titre = titreView.text else {
+            return
+        }
         guard let desc = descriptionView.text else {
             print("pb")
             return
         }
-        guard let adresse = adr.text else {
-            return
-        }
-        guard let cp = cp.text else {
-            return
-        }
-        guard let city = city.text else { return
-        }
-        guard let pays = country.text else{
-            return
-        }
-        let completeadress = adresse + ", " + cp +  " " + city + " " + pays
         
-        if (completeadress != tache?.completeAdress){
-            GeolocHandler.shared.forwardGeocoding(address: completeadress) { [self]
-                location in
-                if let location = location {
-                    print("location : \(location)")
-                    
-//                    CoreDataHandler.shared.updateTask(tache: (tache)!, newTitre: titreView.text!, newDesc: descriptionView.text, newDate: dateEcheance.date, newAdresse: adresse, newCodepostal: cp, newCity: city, newCountry: country)
-//                    
-                    DispatchQueue.main.async {
-                        self.navigationController?.popViewController(animated: true)
+        if (adresseSwitch.isOn){
+            guard let adresse = adr.text else {
+                return
+            }
+            guard let cp = cp.text else {
+                return
+            }
+            guard let city = city.text else { return
+            }
+            guard let pays = country.text else{
+                return
+            }
+            let completeadress = adresse + ", " + cp +  " " + city + " " + pays
+            
+            if (completeadress != tache?.completeAdress){
+                print("withadress")
+                GeolocHandler.shared.forwardGeocoding(address: completeadress) { [self]
+                    location in
+                    if let location = location {
+                        print("location : \(location)")
+                        tache?.completeAdress = completeadress
+                        CoreDataHandler.shared.updateTask(tache: tache!, newTitre: titre, newDesc: desc, newDate: dateEcheance.date, newAdresse: adresse, newCity: city, newCountry: pays, newPostalCode: cp, newCompleteAdress: completeadress, newImportant: importanteSwitch.isOn)
+                        AlertPopupHelper.shared.showAlert(title: "Réussite", message: "Modification réussite !", viewController: self)
+                        reloadView()
+                    } else {
+                        AlertPopupHelper.shared.popupAlert(titre: "No location", message: "L'adresse entrée n'est pas valide, veuillez vérifier l'orthographe.", viewController: self)
                     }
-                } else {
-                    AlertPopupHelper.shared.popupAlert(titre: "No location", message: "L'adresse entrée n'est pas valide, veuillez vérifier l'orthographe.", viewController: self)
                 }
             }
+        } else {
+            print("withoutadresse")
+            CoreDataHandler.shared.updateTask(tache: tache!, newTitre: titre, newDesc: desc, newDate: dateEcheance.date, newAdresse: (tache?.adresse)!, newCity: (tache?.ville)!, newCountry: (tache?.pays)!, newPostalCode: (tache?.codePostal)!, newCompleteAdress: (tache?.completeAdress)!,
+                                              newImportant: importanteSwitch.isOn)
+            AlertPopupHelper.shared.showAlert(title: "Réussite", message: "Modification réussite !", viewController: self)
+            reloadView()
         }
     }
-    
 }

@@ -14,8 +14,6 @@ class CoreDataHandler {
     static let shared = CoreDataHandler()
     
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-
-    // MARK: - Create
     
     func createTask(titre: String, description: String, adresse: String, cp : String, ville: String, pays: String, completeAdress: String, date: Date, isImportant: Bool) {
         let tacheToSave = Tache(context: context)
@@ -27,15 +25,17 @@ class CoreDataHandler {
         tacheToSave.pays = pays
         tacheToSave.date = date
         tacheToSave.isImportant = isImportant
+        
+        tacheToSave.dateCreation = Date.now
+        tacheToSave.dateModif = Date.now
+        
         do {
             try context.save()
         } catch {
             print("Error saving task: \(error)")
         }
     }
-    
-    // MARK: - Read
-    
+        
     func fetchAllTasks() -> [Tache] {
         var tache = [Tache]()
         let fetchRequest: NSFetchRequest<Tache> = Tache.fetchRequest()
@@ -49,14 +49,20 @@ class CoreDataHandler {
         return tache
     }
     
-    // MARK: - Update
     
-    func updateTask(tache: Tache, newTitre: String, newDesc: String, newDate: Date, newAdresse: String) {
+    func updateTask(tache: Tache, newTitre: String, newDesc: String, newDate: Date, newAdresse: String, newCity: String, newCountry: String, newPostalCode: String, newCompleteAdress: String, newImportant: Bool) {
+        
         tache.titre = newTitre
         tache.desc = newDesc
         tache.date = newDate
         tache.adresse = newAdresse
+        tache.ville = newCity
+        tache.pays = newCountry
+        tache.codePostal = newPostalCode
+        tache.completeAdress = newCompleteAdress
+        tache.isImportant = newImportant
         
+        tache.dateModif = Date.now
         do {
             try context.save()
         } catch {
@@ -64,7 +70,14 @@ class CoreDataHandler {
         }
     }
     
-    // MARK: - Delete
+    func tacheIsDone(tache: Tache) {
+        tache.isTerminated = !tache.isTerminated
+        do {
+            try context.save()
+        } catch {
+            print("Error terminating task: \(error)")
+        }
+    }
     
     func deleteTask(tache: Tache) {
         context.delete(tache)
