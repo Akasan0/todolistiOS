@@ -107,6 +107,7 @@ class ViewTaskViewController: UIViewController, UITextViewDelegate {
             cityAddress.text = task?.city
             addressOutlets.append(countryAddress)
             countryAddress.text = task?.country
+            addressSwitch.isOn = false
             
             UIView.animate(withDuration: 0.6) { [self] in
                 addressOutlets.forEach { outlet in
@@ -211,7 +212,7 @@ class ViewTaskViewController: UIViewController, UITextViewDelegate {
     func addAddressAppear() {
         UIView.animate(withDuration: 0.6) { [self] in
             addressOutlets.forEach { outlet in
-                outlet.isHidden = !outlet.isHidden
+                outlet.isHidden = !addressSwitch.isOn
             }
         }
     }
