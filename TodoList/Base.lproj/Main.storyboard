@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="gT9-ns-ve1">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="gT9-ns-ve1">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
         <capability name="Map view configurations" minToolsVersion="14.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -23,8 +23,8 @@
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="RJE-9u-9lQ">
                                         <rect key="frame" x="0.0" y="0.0" width="393" height="32"/>
                                         <segments>
-                                            <segment title="Importante"/>
-                                            <segment title="Date D'échéance"/>
+                                            <segment title="Importance"/>
+                                            <segment title="Date d'échéance"/>
                                         </segments>
                                         <connections>
                                             <action selector="sortingControl:" destination="BYZ-38-t0r" eventType="valueChanged" id="UZJ-Mp-gxb"/>
@@ -76,14 +76,6 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Liste des tâches" id="a1m-QM-jjp">
-                        <barButtonItem key="leftBarButtonItem" title="Item" style="plain" id="j9S-MO-tPN">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="xJS-1I-Cx2">
-                                <rect key="frame" x="16" y="5" width="87" height="34.333333333333336"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="gearshape.fill" catalog="system"/>
-                            </button>
-                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="AddTodo" image="plus" catalog="system" id="a2j-oe-K9g">
                             <connections>
                                 <segue destination="fKU-RF-EMY" kind="show" id="VyV-jl-SRy"/>
@@ -265,7 +257,7 @@
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="twP-T6-dke">
                                         <rect key="frame" x="0.0" y="0.0" width="361" height="50"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                        <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                        <mutableString key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</mutableString>
                                         <color key="textColor" systemColor="labelColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -277,7 +269,7 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="312" height="31"/>
                                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="plain" title="tache importante"/>
+                                                <buttonConfiguration key="configuration" style="plain" title="Tâche importante"/>
                                                 <connections>
                                                     <action selector="switchImportant:" destination="wD0-DZ-AGK" eventType="touchUpInside" id="ela-VE-v24"/>
                                                 </connections>
@@ -338,15 +330,15 @@
                                                 </constraints>
                                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="plain" title="Ajouter/Modifier adresse"/>
+                                                <buttonConfiguration key="configuration" style="plain" title="Ajouter ou modifier l'adresse"/>
                                                 <connections>
-                                                    <action selector="addAdressButton:" destination="wD0-DZ-AGK" eventType="touchUpInside" id="0La-JC-bdr"/>
+                                                    <action selector="addAddressButton:" destination="wD0-DZ-AGK" eventType="touchUpInside" id="0La-JC-bdr"/>
                                                 </connections>
                                             </button>
                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="mXW-LB-bvZ">
                                                 <rect key="frame" x="312" y="0.0" width="51" height="31"/>
                                                 <connections>
-                                                    <action selector="addAdressSwitch:" destination="wD0-DZ-AGK" eventType="valueChanged" id="Cqe-4w-TuH"/>
+                                                    <action selector="addAddressSwitch:" destination="wD0-DZ-AGK" eventType="valueChanged" id="Cqe-4w-TuH"/>
                                                 </connections>
                                             </switch>
                                         </subviews>
@@ -360,7 +352,7 @@
                                     <stackView opaque="NO" contentMode="scaleAspectFit" ambiguous="YES" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="25k-wi-MlW">
                                         <rect key="frame" x="0.0" y="204" width="361" height="540"/>
                                         <subviews>
-                                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Adresse" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eax-z1-HLW">
+                                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Rue et numéro" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eax-z1-HLW">
                                                 <rect key="frame" x="0.0" y="0.0" width="361" height="50"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="50" id="Tgd-Ea-mtl"/>
@@ -429,7 +421,7 @@
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" title="Annuler"/>
                                         <connections>
-                                            <action selector="annulerEdit:" destination="wD0-DZ-AGK" eventType="touchUpInside" id="Kbd-dS-RY5"/>
+                                            <action selector="cancelEdit:" destination="wD0-DZ-AGK" eventType="touchUpInside" id="Kbd-dS-RY5"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ych-zA-xLj">
@@ -440,7 +432,7 @@
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" title="Confirmer"/>
                                         <connections>
-                                            <action selector="confirmerEdit:" destination="wD0-DZ-AGK" eventType="touchUpInside" id="Te1-98-iX2"/>
+                                            <action selector="confirmEdit:" destination="wD0-DZ-AGK" eventType="touchUpInside" id="Te1-98-iX2"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -471,25 +463,24 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="adr" destination="eax-z1-HLW" id="Im5-eu-InS"/>
-                        <outlet property="adresseButton" destination="Luh-Mr-wGt" id="nby-eS-TBl"/>
-                        <outlet property="adresseSwitch" destination="mXW-LB-bvZ" id="RLW-TC-slO"/>
-                        <outlet property="annulerButton" destination="APQ-NP-dlC" id="bxM-EK-aM9"/>
-                        <outlet property="city" destination="hQN-kg-4fh" id="qha-vM-q6e"/>
-                        <outlet property="confirmerButton" destination="ych-zA-xLj" id="vi7-96-VwA"/>
-                        <outlet property="country" destination="7JW-wM-148" id="Bim-JC-HxA"/>
-                        <outlet property="cp" destination="6p4-cs-JsW" id="EWG-Sv-v5B"/>
-                        <outlet property="dateEcheance" destination="Ibr-EG-w85" id="64e-gE-3A1"/>
-                        <outlet property="descriptionView" destination="twP-T6-dke" id="yBq-lF-pLC"/>
+                        <outlet property="addressButton" destination="Luh-Mr-wGt" id="nby-eS-TBl"/>
+                        <outlet property="addressSwitch" destination="mXW-LB-bvZ" id="RLW-TC-slO"/>
+                        <outlet property="cancelButton" destination="APQ-NP-dlC" id="bxM-EK-aM9"/>
+                        <outlet property="cancelOrConfirmButtons" destination="Z2a-T4-6uN" id="Uwm-B3-3L4"/>
+                        <outlet property="cityAddress" destination="hQN-kg-4fh" id="qha-vM-q6e"/>
+                        <outlet property="confirmButton" destination="ych-zA-xLj" id="vi7-96-VwA"/>
+                        <outlet property="countryAddress" destination="7JW-wM-148" id="Bim-JC-HxA"/>
+                        <outlet property="dueDate" destination="Ibr-EG-w85" id="64e-gE-3A1"/>
                         <outlet property="editButton" destination="P4g-Sc-dO8" id="bZe-FR-3oG"/>
-                        <outlet property="editButtons" destination="Z2a-T4-6uN" id="Uwm-B3-3L4"/>
-                        <outlet property="importanteButton" destination="WcK-S4-Ev2" id="w9Q-Ej-MRO"/>
-                        <outlet property="importanteSwitch" destination="PF0-HU-lms" id="adc-f2-eaI"/>
+                        <outlet property="importantButton" destination="WcK-S4-Ev2" id="w9Q-Ej-MRO"/>
+                        <outlet property="importantSwitch" destination="PF0-HU-lms" id="adc-f2-eaI"/>
                         <outlet property="mapView" destination="CcG-13-47h" id="eBc-2z-HJ9"/>
-                        <outlet property="separator" destination="RGF-g9-FRu" id="VB6-AJ-FNh"/>
-                        <outlet property="separator1" destination="MmJ-uw-wFO" id="ub0-SZ-1wO"/>
-                        <outlet property="titreView" destination="rQx-0q-c4t" id="SY1-Hd-3Z8"/>
-                        <outletCollection property="editOutlets" destination="twP-T6-dke" collectionClass="NSMutableArray" id="0Ba-aP-7Qe"/>
+                        <outlet property="postalCodeAddress" destination="6p4-cs-JsW" id="EWG-Sv-v5B"/>
+                        <outlet property="separator1" destination="RGF-g9-FRu" id="VB6-AJ-FNh"/>
+                        <outlet property="separator2" destination="MmJ-uw-wFO" id="ub0-SZ-1wO"/>
+                        <outlet property="streetAndNumberAddress" destination="eax-z1-HLW" id="Im5-eu-InS"/>
+                        <outlet property="taskDescription" destination="twP-T6-dke" id="yBq-lF-pLC"/>
+                        <outlet property="taskTitle" destination="rQx-0q-c4t" id="SY1-Hd-3Z8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="N2n-56-D89" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -506,13 +497,13 @@
                             <state key="normal" title="Button"/>
                             <buttonConfiguration key="configuration" style="plain" title="Ajouter/Modifier adresse"/>
                             <connections>
-                                <action selector="addAdressButton:" destination="wD0-DZ-AGK" eventType="touchUpInside" id="KAM-Jj-F0Y"/>
+                                <action selector="addAddressButton:" destination="wD0-DZ-AGK" eventType="touchUpInside" id="KAM-Jj-F0Y"/>
                             </connections>
                         </button>
                         <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="eIy-Ea-BgC">
                             <rect key="frame" x="312" y="0.0" width="51" height="31"/>
                             <connections>
-                                <action selector="addAdressSwitch:" destination="wD0-DZ-AGK" eventType="valueChanged" id="Q1I-d3-HQO"/>
+                                <action selector="addAddressSwitch:" destination="wD0-DZ-AGK" eventType="valueChanged" id="Q1I-d3-HQO"/>
                             </connections>
                         </switch>
                     </subviews>
@@ -547,7 +538,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="gearshape.fill" catalog="system" width="128" height="123"/>
         <image name="pencil" catalog="system" width="128" height="113"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <systemColor name="labelColor">

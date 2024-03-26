@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22522" systemVersion="23C71" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="Tache" representedClassName="Tache" syncable="YES">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22757" systemVersion="23B92" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Task" representedClassName="Task" syncable="YES">
         <attribute name="adresse" optional="YES" attributeType="String"/>
         <attribute name="codePostal" optional="YES" attributeType="String"/>
         <attribute name="completeAdress" optional="YES" attributeType="String"/>
@@ -8,8 +8,8 @@
         <attribute name="dateCreation" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="dateModif" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="desc" optional="YES" attributeType="String"/>
+        <attribute name="isDone" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="isImportant" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="isTerminated" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="pays" optional="YES" attributeType="String"/>
         <attribute name="titre" optional="YES" attributeType="String"/>
         <attribute name="ville" optional="YES" attributeType="String"/>

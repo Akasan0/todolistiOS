@@ -10,24 +10,33 @@ import CoreData
 import UIKit
 
 class CoreDataHandler {
-
     static let shared = CoreDataHandler()
     
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-    func createTask(titre: String, description: String, adresse: String, cp : String, ville: String, pays: String, completeAdress: String, date: Date, isImportant: Bool) {
-        let tacheToSave = Tache(context: context)
-        tacheToSave.titre = titre
-        tacheToSave.desc = description
-        tacheToSave.adresse = adresse
-        tacheToSave.codePostal = cp
-        tacheToSave.ville = ville
-        tacheToSave.pays = pays
-        tacheToSave.date = date
-        tacheToSave.isImportant = isImportant
+    func createTask(
+        titre: String,
+        description: String?,
+        adresse: String?,
+        cp : String?,
+        ville: String?,
+        pays: String?,
+        completeAdress: String?,
+        date: Date,
+        isImportant: Bool
+    ) {
+        let taskToSave = Task(context: context)
+        taskToSave.titre = titre
+        taskToSave.desc = description
+        taskToSave.adresse = adresse
+        taskToSave.codePostal = cp
+        taskToSave.ville = ville
+        taskToSave.pays = pays
+        taskToSave.date = date
+        taskToSave.isImportant = isImportant
         
-        tacheToSave.dateCreation = Date.now
-        tacheToSave.dateModif = Date.now
+        taskToSave.dateCreation = Date.now
+        taskToSave.dateModif = Date.now
         
         do {
             try context.save()
@@ -36,33 +45,43 @@ class CoreDataHandler {
         }
     }
         
-    func fetchAllTasks() -> [Tache] {
-        var tache = [Tache]()
-        let fetchRequest: NSFetchRequest<Tache> = Tache.fetchRequest()
+    func fetchAllTasks() -> [Task] {
+        var task = [Task]()
+        let fetchRequest: NSFetchRequest<Task> = Task.fetchRequest()
         
         do {
-            tache = try context.fetch(fetchRequest)
+            task = try context.fetch(fetchRequest)
         } catch {
             print("Error fetching tasks: \(error)")
         }
         
-        return tache
+        return task
     }
     
     
-    func updateTask(tache: Tache, newTitre: String, newDesc: String, newDate: Date, newAdresse: String, newCity: String, newCountry: String, newPostalCode: String, newCompleteAdress: String, newImportant: Bool) {
+    func updateTask(
+        task: Task,
+        newTitre: String,
+        newDesc: String,
+        newDate: Date,
+        newAdresse: String?,
+        newCity: String?,
+        newCountry: String?,
+        newPostalCode: String?,
+        newCompleteAdress: String?,
+        newImportant: Bool
+    ) {
+        task.titre = newTitre
+        task.desc = newDesc
+        task.date = newDate
+        task.adresse = newAdresse
+        task.ville = newCity
+        task.pays = newCountry
+        task.codePostal = newPostalCode
+        task.completeAdress = newCompleteAdress
+        task.isImportant = newImportant
         
-        tache.titre = newTitre
-        tache.desc = newDesc
-        tache.date = newDate
-        tache.adresse = newAdresse
-        tache.ville = newCity
-        tache.pays = newCountry
-        tache.codePostal = newPostalCode
-        tache.completeAdress = newCompleteAdress
-        tache.isImportant = newImportant
-        
-        tache.dateModif = Date.now
+        task.dateModif = Date.now
         do {
             try context.save()
         } catch {
@@ -70,8 +89,8 @@ class CoreDataHandler {
         }
     }
     
-    func tacheIsDone(tache: Tache) {
-        tache.isTerminated = !tache.isTerminated
+    func taskIsDone(task: Task) {
+        task.isDone = !task.isDone
         do {
             try context.save()
         } catch {
@@ -79,8 +98,8 @@ class CoreDataHandler {
         }
     }
     
-    func deleteTask(tache: Tache) {
-        context.delete(tache)
+    func deleteTask(task: Task) {
+        context.delete(task)
         
         do {
             try context.save()

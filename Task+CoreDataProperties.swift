@@ -10,10 +10,10 @@ import Foundation
 import CoreData
 
 
-extension Tache {
+extension Task {
 
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<Tache> {
-        return NSFetchRequest<Tache>(entityName: "Tache")
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<Task> {
+        return NSFetchRequest<Task>(entityName: "Task")
     }
 
     @NSManaged public var adresse: String?
@@ -22,9 +22,9 @@ extension Tache {
     @NSManaged public var date: Date?
     @NSManaged public var desc: String?
     @NSManaged public var isImportant: Bool
-    @NSManaged public var isTerminated: Bool
+    @NSManaged public var isDone: Bool
     @NSManaged public var pays: String?
-    @NSManaged public var titre: String?
+    @NSManaged public var titre: String
     @NSManaged public var ville: String?
     @NSManaged public var dateCreation: Date?
     @NSManaged public var dateModif: Date?
