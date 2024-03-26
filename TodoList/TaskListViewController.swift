@@ -30,7 +30,57 @@ class TaskListViewController: UIViewController  {
         tableView.delegate = self
         tableView.dataSource = self
         
+        // Menu of left bar button :
+        
+        
         updateTasks()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gearshape"), primaryAction: nil, menu: settingMenuFabric())    }
+    
+    func settingMenuFabric() -> UIMenu {
+        
+        let settingsMenu = UIMenu(options: .displayInline, children: [
+            
+            UIAction( title: "Afficher taches terminées", image: UIImage(systemName: "eye"), handler: { action in
+                self.showDone();
+            }),
+            
+            UIAction( title: "Cacher taches terminées", image: UIImage(systemName: "eye.slash"), handler: { action in
+                self.hideDone();
+            }),
+            
+            UIAction( title: "Tout Supprimer", image: UIImage(systemName: "trash"),attributes: .destructive, handler: { action in
+                self.deleteAll();
+            })
+        ])
+        return settingsMenu
+    }
+    
+    func showDone(){
+        UserDefaults.standard.set(true, forKey: "showDoneTask")
+        UserDefaults.standard.synchronize()
+        updateTasks()
+    }
+    
+    func hideDone(){
+        UserDefaults.standard.set(false, forKey: "showDoneTask")
+        UserDefaults.standard.synchronize()
+        updateTasks()
+    }
+    
+    func deleteAll(){
+        AlertPopupHelper.shared.choiceWindow(titre: "Tout supprimer", message: "êtes vous sur de tout supprimer ?", bouton1: "Oui", bouton2: "Non", vc: self){ (result) in
+            if result {
+                CoreDataHandler.shared.deleteAll()
+                self.updateTasks()
+            } else{
+                return
+            }
+        }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -73,7 +123,7 @@ class TaskListViewController: UIViewController  {
         do {
             let tasks = try context.fetch(fetchRequest)
             print("Tasks fetching done.")
-            return tasks // Returns the first Task entity, if found
+            return tasks
         } catch {
             print("Error fetching Task: \(error)")
             return []
@@ -142,7 +192,11 @@ extension TaskListViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         if (task.isDone){
-            cell.backgroundColor = .lightGray
+            if (!UserDefaults.standard.bool(forKey: "showDoneTask")){
+                cell.isHidden = true
+            } else {
+                cell.backgroundColor = .lightGray
+            }
         } else {
             cell.backgroundColor = .clear
         }

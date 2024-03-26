@@ -104,4 +104,11 @@ class CoreDataHandler {
             print("Error deleting task: \(error)")
         }
     }
+    
+    func deleteAll() {
+        var tasks = fetchAllTasks()
+        tasks.forEach { task in
+            deleteTask(task: task)
+        }
+    }
 }

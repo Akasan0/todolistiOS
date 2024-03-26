@@ -34,7 +34,7 @@ class AddTaskViewController: UIViewController, UITextFieldDelegate, UITextViewDe
     // Importance
     @IBOutlet weak var importantButton: UISwitch!
     @IBOutlet weak var importantSwitch: UIButton!
-
+    
     // Attributs de view.
     var isOK: Bool = true
     
@@ -44,7 +44,7 @@ class AddTaskViewController: UIViewController, UITextFieldDelegate, UITextViewDe
         super.viewDidLoad()
         taskTitle.delegate = self
         taskDescription.delegate = self
-
+        
         taskDescription.text = "Description"
         taskDescription.textColor = .placeholderText
         
@@ -106,11 +106,27 @@ class AddTaskViewController: UIViewController, UITextFieldDelegate, UITextViewDe
         
         // Adresse...
         // Soit les 4 champs sont non nuls, soit ils sont tous nuls.
-        if (streetAndNumberAddress.text != "" && postalCodeAddress.text != "" && cityAddress.text != "" && countryAddress.text != "") {
-            // Vérification que l'adresse complète est bien valide. TODO: NE MARCHE PAS (tout est toujours valide).
+        if (streetAndNumberAddress.text != "" || postalCodeAddress.text != "" || cityAddress.text != "" || countryAddress.text != "") {
+            // Vérification que l'adresse complète est bien valide
             let completeAddress = streetAndNumberAddress.text! + ", " + postalCodeAddress.text! + " " + cityAddress.text! + " " + countryAddress.text!
             GeolocHandler.shared.forwardGeocoding(address: completeAddress) { [self] location in
-                if location == nil {
+                print("we are here")
+                if let location = location {
+                    print("Location : \(location)")
+                    CoreDataHandler.shared.createTask(
+                        title: taskTitle.text!,
+                        description: taskDescription.text,
+                        date: taskDate.date,
+                        isImportant: importantButton.isOn,
+                        streetAndNumber: streetAndNumberAddress.text,
+                        postalCode: postalCodeAddress.text,
+                        city: cityAddress.text,
+                        country: countryAddress.text)
+                    
+                    DispatchQueue.main.async {
+                        self.navigationController?.popViewController(animated: true)
+                    }
+                } else {
                     AlertPopupHelper.shared.popupAlert(
                         titre: "Localisation introuvable",
                         message: "L'adresse entrée n'est pas valide, veuillez vérifier l'orthographe.",
@@ -119,28 +135,21 @@ class AddTaskViewController: UIViewController, UITextFieldDelegate, UITextViewDe
                     return
                 }
             }
-        } else if (streetAndNumberAddress.text != "" || postalCodeAddress.text != "" || cityAddress.text != "" || countryAddress.text != "") {
-            AlertPopupHelper.shared.popupAlert(
-                titre: "Champ invalide",
-                message: "Veuillez saisir tous les champs de l'adresse, ou ne saisir aucune adresse.",
-                viewController: self
-            )
-            return
-        }
-        
-        CoreDataHandler.shared.createTask(
-            title: taskTitle.text!,
-            description: taskDescription.text,
-            date: taskDate.date,
-            isImportant: importantButton.isOn,
-            streetAndNumber: streetAndNumberAddress.text,
-            postalCode: postalCodeAddress.text,
-            city: cityAddress.text,
-            country: countryAddress.text
-        )
-        
-        DispatchQueue.main.async {
-            self.navigationController?.popViewController(animated: true)
+        } else {
+            CoreDataHandler.shared.createTask(
+                title: taskTitle.text!,
+                description: taskDescription.text,
+                date: taskDate.date,
+                isImportant: importantButton.isOn,
+                streetAndNumber: streetAndNumberAddress.text,
+                postalCode: postalCodeAddress.text,
+                city: cityAddress.text,
+                country: countryAddress.text)
+            
+            DispatchQueue.main.async {
+                self.navigationController?.popViewController(animated: true)
+                
+            }
         }
     }
 }

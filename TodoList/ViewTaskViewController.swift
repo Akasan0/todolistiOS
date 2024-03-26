@@ -97,6 +97,7 @@ class ViewTaskViewController: UIViewController, UITextViewDelegate {
             // Boutons et switch d'adresse.
             addressButton.isHidden = true
             addressSwitch.isHidden = true
+            addressSwitch.isOn = false
             
             // Adresse.
             addressOutlets.append(streetAndNumberAddress)
@@ -145,9 +146,9 @@ class ViewTaskViewController: UIViewController, UITextViewDelegate {
     }
     
     func isAddressGiven() -> Bool {
-        if (task?.streetAndNumber == nil || task?.postalCode == nil || task?.city == nil || task?.country == nil) {
+        if (task?.streetAndNumber == nil && task?.postalCode == nil && task?.city == nil && task?.country == nil) {
             return false
-        } else if (task?.streetAndNumber == "" || task?.postalCode == "" || task?.city == "" || task?.country == "") {
+        } else if (task?.streetAndNumber == "" && task?.postalCode == "" && task?.city == "" && task?.country == "") {
             return false
         }
         
@@ -239,7 +240,7 @@ class ViewTaskViewController: UIViewController, UITextViewDelegate {
         // Adresse...
         // Soit les 4 champs sont non nuls, soit ils sont tous nuls.
         if (streetAndNumberAddress.text != "" && postalCodeAddress.text != "" && cityAddress.text != "" && countryAddress.text != "") {
-            // Vérification que l'adresse complète est bien valide. TODO: NE MARCHE PAS (tout est toujours valide).
+            // Vérification que l'adresse complète est bien valide
             let completeAddress = streetAndNumberAddress.text! + ", " + postalCodeAddress.text! + " " + cityAddress.text! + " " + countryAddress.text!
             GeolocHandler.shared.forwardGeocoding(address: completeAddress) { [self] location in
                 if location == nil {
@@ -249,34 +250,41 @@ class ViewTaskViewController: UIViewController, UITextViewDelegate {
                         viewController: self
                     )
                     return
+                } else {
+                    CoreDataHandler.shared.updateTask(
+                        task: task!,
+                        newTitle: taskTitle.text!,
+                        newDescription: taskDescription.text,
+                        newDate: dueDate.date,
+                        newIsImportant: importantSwitch.isOn,
+                        newStreetAndNumber: streetAndNumberAddress.text,
+                        newPostalCode: postalCodeAddress.text,
+                        newCity: cityAddress.text,
+                        newCountry: countryAddress.text
+                    )
                 }
             }
-        } else if (streetAndNumberAddress.text != "" || postalCodeAddress.text != "" || cityAddress.text != "" || countryAddress.text != "") {
-            AlertPopupHelper.shared.popupAlert(
-                titre: "Champ invalide",
-                message: "Veuillez saisir tous les champs de l'adresse, ou ne saisir aucune adresse.",
+        } else {
+            
+            CoreDataHandler.shared.updateTask(
+                task: task!,
+                newTitle: taskTitle.text!,
+                newDescription: taskDescription.text,
+                newDate: dueDate.date,
+                newIsImportant: importantSwitch.isOn,
+                newStreetAndNumber: streetAndNumberAddress.text,
+                newPostalCode: postalCodeAddress.text,
+                newCity: cityAddress.text,
+                newCountry: countryAddress.text
+            )
+            AlertPopupHelper.shared.showAlert(
+                title: "Réussite",
+                message: "Modification réussie !",
                 viewController: self
             )
-            return
         }
         
-        CoreDataHandler.shared.updateTask(
-            task: task!,
-            newTitle: taskTitle.text!,
-            newDescription: taskDescription.text,
-            newDate: dueDate.date,
-            newIsImportant: importantSwitch.isOn,
-            newStreetAndNumber: streetAndNumberAddress.text,
-            newPostalCode: postalCodeAddress.text,
-            newCity: cityAddress.text,
-            newCountry: countryAddress.text
-        )
         
-        AlertPopupHelper.shared.showAlert(
-            title: "Réussite",
-            message: "Modification réussie !",
-            viewController: self
-        )
         
         reloadView()
     }

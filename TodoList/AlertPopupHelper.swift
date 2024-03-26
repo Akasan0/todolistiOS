@@ -27,4 +27,23 @@ class AlertPopupHelper{
             alertController.dismiss(animated: true, completion: nil)
         }
     }
+    
+    func choiceWindow(titre: String, message: String, bouton1: String, bouton2: String, vc: UIViewController, completion: @escaping (Bool) -> Void) {
+        let alertController = UIAlertController(title: titre, message:  message, preferredStyle: .alert)
+        
+        // Action pour "Oui"
+        alertController.addAction(UIAlertAction(title: bouton1, style: .default, handler: { action in
+            // Renvoyer true lorsque l'utilisateur appuie sur "Oui"
+            completion(true)
+        }))
+        
+        // Action pour "Non"
+        alertController.addAction(UIAlertAction(title: bouton2, style: .cancel, handler: { action in
+            // Renvoyer false lorsque l'utilisateur appuie sur "Non"
+            completion(false)
+        }))
+        
+        // Afficher la UIAlert
+        vc.present(alertController, animated: true, completion: nil)
+    }
 }
