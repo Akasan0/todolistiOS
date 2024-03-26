@@ -256,6 +256,9 @@ class ViewTaskViewController: UIViewController, UITextViewDelegate {
             
             // Plan.
             mapView.isHidden = true
+            
+            // Météo
+            meteoView.isHidden = true
         }
     }
     

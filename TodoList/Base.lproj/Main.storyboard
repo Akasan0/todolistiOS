@@ -248,7 +248,7 @@
             <objects>
                 <viewController storyboardIdentifier="view" title="Détails de la tâche" id="wD0-DZ-AGK" customClass="ViewTaskViewController" customModule="TodoList" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="arL-1l-Nuf">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="1200"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="vNG-KU-wye">
@@ -292,7 +292,7 @@
                                         <rect key="frame" x="0.0" y="97" width="361" height="60"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date d'échéance :" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uox-Ew-aGF">
-                                                <rect key="frame" x="0.0" y="0.0" width="138" height="60"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="137" height="60"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="60" id="Hgy-wm-MvM"/>
                                                 </constraints>
@@ -301,7 +301,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="Ibr-EG-w85">
-                                                <rect key="frame" x="138" y="0.0" width="223" height="60"/>
+                                                <rect key="frame" x="137" y="0.0" width="224" height="60"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="60" id="q5t-uv-VVX"/>
                                                 </constraints>
@@ -445,7 +445,7 @@
                                 </constraints>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Z2a-T4-6uN">
-                                <rect key="frame" x="86.333333333333329" y="1121" width="220.66666666666669" height="35"/>
+                                <rect key="frame" x="86.333333333333329" y="773" width="220.66666666666669" height="35"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="APQ-NP-dlC">
                                         <rect key="frame" x="0.0" y="0.0" width="100.33333333333333" height="35"/>
@@ -497,7 +497,6 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <size key="freeformSize" width="393" height="1200"/>
                     <connections>
                         <outlet property="addressButton" destination="Luh-Mr-wGt" id="nby-eS-TBl"/>
                         <outlet property="addressSwitch" destination="mXW-LB-bvZ" id="RLW-TC-slO"/>
