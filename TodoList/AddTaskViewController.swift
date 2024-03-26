@@ -9,53 +9,56 @@ import UIKit
 import CoreData
 
 class AddTaskViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
-    
-    @IBOutlet var nameField: UITextField!
-    
-    @IBOutlet weak var descriptionField: UITextView!
-
-    @IBOutlet weak var dateEcheance: UIDatePicker!
-    
-    var outlets: [UIView] = []
-    
-    @IBOutlet weak var adresse: UITextField!
-    @IBOutlet weak var postalCode: UITextField!
-    @IBOutlet weak var city: UITextField!
-    @IBOutlet weak var country: UITextField!
-    
-    var isOK: Bool = true
-    
-    @IBOutlet weak var adresseButton: UIButton!
-    @IBOutlet weak var hasAdress: UISwitch!
-    
-    
-    @IBOutlet weak var isImportant: UISwitch!
-    @IBOutlet weak var isImportantButton: UIButton!
-    
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-    var update: (() -> Void)?
+    // Éléments UI.
+    
+    // Titre de la tâche.
+    @IBOutlet var taskTitle: UITextField!
+    
+    // Date d'échéance.
+    @IBOutlet weak var taskDate: UIDatePicker!
+    
+    // Description de la tâche.
+    @IBOutlet weak var taskDescription: UITextView!
+    
+    // Adresse.
+    @IBOutlet weak var addressButton: UIButton!
+    @IBOutlet weak var AddressSwitch: UISwitch!
+    @IBOutlet weak var streetAndNumberAddress: UITextField!
+    @IBOutlet weak var postalCodeAddress: UITextField!
+    @IBOutlet weak var cityAddress: UITextField!
+    @IBOutlet weak var countryAddress: UITextField!
+    var addressOutlets: [UIView] = []
+    
+    // Importance
+    @IBOutlet weak var importantButton: UISwitch!
+    @IBOutlet weak var importantSwitch: UIButton!
+
+    // Attributs de view.
+    var isOK: Bool = true
     
     override func viewDidLoad() {
         print("Add Task has been loaded.")
         
         super.viewDidLoad()
-        nameField.delegate = self
-        descriptionField.delegate = self
+        taskTitle.delegate = self
+        taskDescription.delegate = self
 
-        descriptionField.text = "Description"
-        descriptionField.textColor = .placeholderText
+        taskDescription.text = "Description"
+        taskDescription.textColor = .placeholderText
         
-        descriptionField.layer.borderWidth = 0.5
-        descriptionField.layer.borderColor = UIColor.placeholderText.cgColor
-        descriptionField.layer.cornerRadius = 5
+        taskDescription.layer.borderWidth = 0.5
+        taskDescription.layer.borderColor = UIColor.placeholderText.cgColor
+        taskDescription.layer.cornerRadius = 5
         
-        outlets.append(adresse)
-        outlets.append(postalCode)
-        outlets.append(city)
-        outlets.append(country)
+        addressOutlets.append(streetAndNumberAddress)
+        addressOutlets.append(postalCodeAddress)
+        addressOutlets.append(cityAddress)
+        addressOutlets.append(countryAddress)
         adressSwitch(self)
     }
+    
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.textColor == UIColor.placeholderText {
             textView.text = nil
@@ -71,106 +74,73 @@ class AddTaskViewController: UIViewController, UITextFieldDelegate, UITextViewDe
     }
     
     @IBAction func switchImportant(_ sender: UIButton) {
-        isImportant.setOn(!isImportant.isOn, animated: true)
+        importantButton.setOn(!importantButton.isOn, animated: true)
     }
     
     @IBAction func switchAdress(_ sender: Any) {
-        hasAdress.setOn(!hasAdress.isOn, animated: true)
+        AddressSwitch.setOn(!AddressSwitch.isOn, animated: true)
         adressSwitch(sender)
     }
     
-    
     @IBAction func adressSwitch(_ sender: Any) {
         UIView.animate(withDuration: 0.6) { [self] in
-            outlets.forEach{ (outlet) in outlet.isHidden = !outlet.isHidden
+            addressOutlets.forEach{ (outlet) in
+                outlet.isHidden = !outlet.isHidden
             }
         }
     }
     
-    
-    
     @IBAction func saveTask() {
-        print("Saving task.")
-        
-        print(nameField.text ?? "")
-        print(descriptionField.text ?? "")
-        print(dateEcheance.date)
-        print(isImportant.isOn)
-        print(adresse.text ?? "")
-        print(city.text ?? "")
-        print(postalCode.text ?? "")
-        if (nameField.text == "") {
-            AlertPopupHelper.shared.popupAlert(titre: "Erreur", message: "Le nom de la tache ne peut pas être vide.", viewController: self)
-            return
-        }
-        
-        guard let titre = nameField.text else {
-            print("Name field vide")
-            return
-        }
-        guard let description = descriptionField.text else {
-            print("description vide")
-            return
-        }
-        
-        guard let adr = adresse.text else {
-            print("adresse vide")
-            return
-        }
-        guard let cp = postalCode.text else {
-            print("code postal vide")
-            return
-        }
-        guard let ville = city.text else {
-            print("ville vide")
-            return
-        }
-        guard let pays = country.text else {
-            print("pays vide")
-            return
-        }
-        
-        let completeAdress = adr + ", " + cp +  " " + ville + " " + pays
-        
-        if (!hasAdress.isOn){
-            CoreDataHandler.shared.createTask(
-                title: titre,
-                description: description,
-                date: dateEcheance.date,
-                isImportant: isImportant.isOn,
-                streetAndNumber: nil,
-                postalCode: nil,
-                city: nil,
-                country: nil
+        // Vérification de tous les champs.
+        // Titre ne doit pas être vide.
+        if (taskTitle.text == nil || taskTitle.text == "") {
+            AlertPopupHelper.shared.popupAlert(
+                titre: "Champ invalide",
+                message: "Le titre ne peut être vide.",
+                viewController: self
             )
-            DispatchQueue.main.async {
-                self.navigationController?.popViewController(animated: true)
-            }
             return
         }
-        GeolocHandler.shared.forwardGeocoding(address: completeAdress) { [self]
-            location in
-            if let location = location {
-                print("location : \(location)")
-                
-                CoreDataHandler.shared.createTask(
-                    title: titre,
-                    description: description,
-                    date: dateEcheance.date,
-                    isImportant: isImportant.isOn,
-                    streetAndNumber: adr,
-                    postalCode: cp,
-                    city: ville,
-                    country: pays
-                )
-                
-                DispatchQueue.main.async {
-                    self.navigationController?.popViewController(animated: true)
+        
+        // Description peut être nulle.
+        
+        // Adresse...
+        // Soit les 4 champs sont non nuls, soit ils sont tous nuls.
+        if (streetAndNumberAddress.text != "" && postalCodeAddress.text != "" && cityAddress.text != "" && countryAddress.text != "") {
+            // Vérification que l'adresse complète est bien valide. TODO: NE MARCHE PAS (tout est toujours valide).
+            let completeAddress = streetAndNumberAddress.text! + ", " + postalCodeAddress.text! + " " + cityAddress.text! + " " + countryAddress.text!
+            GeolocHandler.shared.forwardGeocoding(address: completeAddress) { [self] location in
+                if location == nil {
+                    AlertPopupHelper.shared.popupAlert(
+                        titre: "Localisation introuvable",
+                        message: "L'adresse entrée n'est pas valide, veuillez vérifier l'orthographe.",
+                        viewController: self
+                    )
+                    return
                 }
-            } else {
-                AlertPopupHelper.shared.popupAlert(titre: "No location", message: "L'adresse entrée n'est pas valide, veuillez vérifier l'orthographe.", viewController: self)
-                isOK = false
             }
+        } else if (streetAndNumberAddress.text != "" || postalCodeAddress.text != "" || cityAddress.text != "" || countryAddress.text != "") {
+            AlertPopupHelper.shared.popupAlert(
+                titre: "Champ invalide",
+                message: "Veuillez saisir tous les champs de l'adresse, ou ne saisir aucune adresse.",
+                viewController: self
+            )
+            return
+        }
+        
+        CoreDataHandler.shared.createTask(
+            title: taskTitle.text!,
+            description: taskDescription.text,
+            date: taskDate.date,
+            isImportant: importantButton.isOn,
+            streetAndNumber: streetAndNumberAddress.text,
+            postalCode: postalCodeAddress.text,
+            city: cityAddress.text,
+            country: countryAddress.text
+        )
+        
+        DispatchQueue.main.async {
+            self.navigationController?.popViewController(animated: true)
         }
     }
 }

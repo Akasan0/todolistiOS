@@ -65,9 +65,9 @@ class CoreDataHandler {
         newDate: Date,
         newIsImportant: Bool,
         newStreetAndNumber: String?,
+        newPostalCode: String?,
         newCity: String?,
-        newCountry: String?,
-        newPostalCode: String?
+        newCountry: String?
     ) {
         task.title = newTitle
         task.desc = newDescription

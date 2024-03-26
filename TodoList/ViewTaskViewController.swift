@@ -266,9 +266,9 @@ class ViewTaskViewController: UIViewController, UITextViewDelegate {
             newDate: dueDate.date,
             newIsImportant: importantSwitch.isOn,
             newStreetAndNumber: streetAndNumberAddress.text,
+            newPostalCode: postalCodeAddress.text,
             newCity: cityAddress.text,
-            newCountry: countryAddress.text,
-            newPostalCode: postalCodeAddress.text
+            newCountry: countryAddress.text
         )
         
         AlertPopupHelper.shared.showAlert(
