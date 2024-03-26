@@ -135,7 +135,8 @@ class ViewTaskViewController: UIViewController, UITextViewDelegate {
             } else {
                 mapView.isHidden = false
                 meteoView.isHidden = false
-                GeolocHandler.shared.forwardGeocoding(address: (task?.streetAndNumber)!) { [self] location in
+                let completeAddress = streetAndNumberAddress.text! + ", " + postalCodeAddress.text! + " " + cityAddress.text! + " " + countryAddress.text!
+                GeolocHandler.shared.forwardGeocoding(address: (completeAddress)) { [self] location in
                     if let location = location {
                         let annotation = MKPointAnnotation()
                         annotation.coordinate = location.coordinate
@@ -308,14 +309,7 @@ class ViewTaskViewController: UIViewController, UITextViewDelegate {
             // Vérification que l'adresse complète est bien valide
             let completeAddress = streetAndNumberAddress.text! + ", " + postalCodeAddress.text! + " " + cityAddress.text! + " " + countryAddress.text!
             GeolocHandler.shared.forwardGeocoding(address: completeAddress) { [self] location in
-                if location == nil {
-                    AlertPopupHelper.shared.popupAlert(
-                        titre: "Localisation introuvable",
-                        message: "L'adresse entrée n'est pas valide, veuillez vérifier l'orthographe.",
-                        viewController: self
-                    )
-                    return
-                } else {
+                if let location = location {
                     CoreDataHandler.shared.updateTask(
                         task: task!,
                         newTitle: taskTitle.text!,
@@ -327,6 +321,13 @@ class ViewTaskViewController: UIViewController, UITextViewDelegate {
                         newCity: cityAddress.text,
                         newCountry: countryAddress.text
                     )
+                } else {
+                    AlertPopupHelper.shared.popupAlert(
+                        titre: "Localisation introuvable",
+                        message: "L'adresse entrée n'est pas valide, veuillez vérifier l'orthographe.",
+                        viewController: self
+                    )
+                    return
                 }
             }
         } else {
