@@ -131,14 +131,18 @@ class TaskListViewController: UIViewController  {
     }
     
     func importanceSort() {
+        tasks.sort{ $0.editionDate > $1.editionDate }
         // Tri d'abord par ordre d'importance.
         tasks.sort{ $0.isImportant && !$1.isImportant }
         // Puis tri sur le caractère terminé ou non.
         tasks.sort{ !$0.isDone && $1.isDone }
+        
     }
     
     func dateSort() {
         // Tri d'abord par date.
+        tasks.sort{ $0.editionDate < $1.editionDate }
+        
         tasks.sort{ $0.date < $1.date }
         // Puis tri sur le caractère terminé ou non.
         tasks.sort{ !$0.isDone && $1.isDone }
