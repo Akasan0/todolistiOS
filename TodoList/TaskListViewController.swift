@@ -41,13 +41,13 @@ class TaskListViewController: UIViewController  {
         
         tableView.delegate = self
         tableView.dataSource = self
-        taches = fetchtasks()
-        triNormal()
+        updateTasks()
         // Setup
     }
     
     func triNormal(){
         taches.sort{ $0.isImportant && !$1.isImportant}
+        //taches.sort{ $0.dateModif! < $1.dateModif!}
         taches.sort{ !$0.isTerminated && $1.isTerminated}
     }
     
@@ -165,5 +165,11 @@ extension TaskListViewController: UITableViewDelegate, UITableViewDataSource {
         tableView.endUpdates()
     }
     
+}
+
+extension UserDefaults {
+    enum Keys {
+        static let showDoneTask = "showDoneTask"
+    }
 }
 
