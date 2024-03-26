@@ -45,6 +45,13 @@ class ViewTaskViewController: UIViewController, UITextViewDelegate {
     // Plan.
     @IBOutlet weak var mapView: MKMapView!
     
+    // Météo
+    @IBOutlet weak var meteoView: UIStackView!
+    @IBOutlet weak var meteoImage: UIImageView!
+    @IBOutlet weak var meteoTemp: UILabel!
+    @IBOutlet weak var meteoTempMin: UILabel!
+    @IBOutlet weak var meteoTempMax: UILabel!
+    
     // Boutons de confirmation ou d'annulation.
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var confirmButton: UIButton!
@@ -124,8 +131,10 @@ class ViewTaskViewController: UIViewController, UITextViewDelegate {
             // Plan.
             if (!isAddressGiven()) {
                 mapView.isHidden = true
+                meteoView.isHidden = true
             } else {
                 mapView.isHidden = false
+                meteoView.isHidden = false
                 GeolocHandler.shared.forwardGeocoding(address: (task?.streetAndNumber)!) { [self] location in
                     if let location = location {
                         let annotation = MKPointAnnotation()
@@ -174,27 +183,27 @@ class ViewTaskViewController: UIViewController, UITextViewDelegate {
                     do {
                         let weatherDataRaw = try dataDecode.decode(WeatherDataRaw.self, from: data)
                         DispatchQueue.main.async {
-                            print("Température : \(weatherDataRaw.main.temp)")
-                            print("Température max : \(weatherDataRaw.main.temp_max)")
-                            print("Température min : \(weatherDataRaw.main.temp_min)")
+                            self.meteoTemp.text = "\(weatherDataRaw.main.temp)°C"
+                            self.meteoTempMax.text = "Max. \(weatherDataRaw.main.temp_max)°C"
+                            self.meteoTempMin.text = "Min. \(weatherDataRaw.main.temp_min)°C"
                             
                             switch weatherDataRaw.weather[0].id {
                             case 200...232:
-                                print("Image : \("cloud.bolt")")
+                                self.meteoImage.image = UIImage(systemName: "cloud.bolt.fill")
                             case 300...321:
-                                print("Image : \("cloud.drizzle")")
+                                self.meteoImage.image = UIImage(systemName: "cloud.drizzle.fill")
                             case 500...531:
-                                print("Image : \("cloud.rain")")
+                                self.meteoImage.image = UIImage(systemName: "cloud.rain.fill")
                             case 600...622:
-                                print("Image : \("cloud.snow")")
+                                self.meteoImage.image = UIImage(systemName: "cloud.snow.fill")
                             case 701...781:
-                                print("Image : \("cloud.fog")")
+                                self.meteoImage.image = UIImage(systemName: "cloud.fog.fill")
                             case 800:
-                                print("Image : \("sun.max")")
+                                self.meteoImage.image = UIImage(systemName: "sun.max.fill")
                             case 801...804:
-                                print("Image : \("cloud.bolt")")
+                                self.meteoImage.image = UIImage(systemName: "cloud.bolt.fill")
                             default:
-                                print("Image : \("cloud")")
+                                self.meteoImage.image = UIImage(systemName: "cloud.fill")
                             }
                         }
                     } catch {
