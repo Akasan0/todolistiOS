@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		13009EFA2BB3610800C81B18 /* WeatherDataRaw.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13009EF92BB3610800C81B18 /* WeatherDataRaw.swift */; };
 		2013880AE6B623D157D55A54 /* Pods_TodoList.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5554C760515225AE9D3F83DC /* Pods_TodoList.framework */; };
 		3B59A73D2BAF47A200D61FA1 /* Task+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B59A73C2BAF47A200D61FA1 /* Task+CoreDataClass.swift */; };
 		3B59A73F2BAF515300D61FA1 /* GeolocHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B59A73E2BAF515300D61FA1 /* GeolocHandler.swift */; };
@@ -26,6 +27,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		13009EF92BB3610800C81B18 /* WeatherDataRaw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDataRaw.swift; sourceTree = "<group>"; };
 		3B59A73C2BAF47A200D61FA1 /* Task+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Task+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
 		3B59A73E2BAF515300D61FA1 /* GeolocHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeolocHandler.swift; sourceTree = "<group>"; };
 		3B59A7402BAF572100D61FA1 /* AlertPopupHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPopupHelper.swift; sourceTree = "<group>"; };
@@ -101,6 +103,7 @@
 				3BFF2D432BAEF66900CC3698 /* LaunchScreen.storyboard */,
 				3BFF2D462BAEF66900CC3698 /* Info.plist */,
 				3BFF2D3E2BAEF66700CC3698 /* TodoList.xcdatamodeld */,
+				13009EF92BB3610800C81B18 /* WeatherDataRaw.swift */,
 			);
 			path = TodoList;
 			sourceTree = "<group>";
@@ -256,6 +259,7 @@
 				3BFF2D382BAEF66700CC3698 /* SceneDelegate.swift in Sources */,
 				3BFF2D402BAEF66700CC3698 /* TodoList.xcdatamodeld in Sources */,
 				3BFF2D622BAF13E700CC3698 /* CoreDataHandler.swift in Sources */,
+				13009EFA2BB3610800C81B18 /* WeatherDataRaw.swift in Sources */,
 				3B740B612BB1AABB0060A594 /* Task+CoreDataProperties.swift in Sources */,
 				3B59A73F2BAF515300D61FA1 /* GeolocHandler.swift in Sources */,
 				3B59A73D2BAF47A200D61FA1 /* Task+CoreDataClass.swift in Sources */,

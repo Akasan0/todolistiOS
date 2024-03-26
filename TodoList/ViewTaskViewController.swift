@@ -51,6 +51,7 @@ class ViewTaskViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var cancelOrConfirmButtons: UIStackView!
     
     // Attributs de view.
+    let weatherUrlApiKey: String = "https://api.openweathermap.org/data/2.5/weather?appid=8a2197bbb3b34282c157fa4019483f44&units=metric"
     var editMode: Bool = false
     var isOkToEdit : Bool = true
     var task: Task?
@@ -73,7 +74,7 @@ class ViewTaskViewController: UIViewController, UITextViewDelegate {
             taskDescription.text = task?.desc
             taskDescription.isEditable = false
             // Contrainte pour que la hauteur corresponde au texte saisi.
-            //descriptionView.heightAnchor.constraint(equalToConstant: descriptionView.contentSize.height).isActive = true
+            taskDescription.heightAnchor.constraint(equalToConstant: taskDescription.contentSize.height).isActive = true
             taskDescription.layer.borderWidth = 0
             taskDescription.delegate = self
             
@@ -139,6 +140,8 @@ class ViewTaskViewController: UIViewController, UITextViewDelegate {
                         )
                         mapView.setRegion(coordinateRegion, animated: true)
                         mapView.addAnnotation(annotation)
+                        
+                        loadCurrentWeather(lat: location.coordinate.latitude, lon: location.coordinate.longitude)
                     }
                 }
             }
@@ -153,6 +156,56 @@ class ViewTaskViewController: UIViewController, UITextViewDelegate {
         }
         
         return true
+    }
+    
+    func loadCurrentWeather(lat: Double, lon: Double) {
+        let texteURL = "\(weatherUrlApiKey)&lat=\(lat)&lon=\(lon)"
+        let urlEncodee = texteURL.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+        guard urlEncodee != nil else { debugPrint("Problème d'encodage de l'URL : \(texteURL)"); return }
+        let url = URL(string: urlEncodee!)
+        
+        let session = URLSession(configuration: .default)
+        let tache = session.dataTask(with: url!) { (data, response, error) in
+            if error != nil {
+                print("Problème lors de la requête : \(error!)")
+            } else {
+                if let data = data {
+                    let dataDecode = JSONDecoder()
+                    do {
+                        let weatherDataRaw = try dataDecode.decode(WeatherDataRaw.self, from: data)
+                        DispatchQueue.main.async {
+                            print("Température : \(weatherDataRaw.main.temp)")
+                            print("Température max : \(weatherDataRaw.main.temp_max)")
+                            print("Température min : \(weatherDataRaw.main.temp_min)")
+                            
+                            switch weatherDataRaw.weather[0].id {
+                            case 200...232:
+                                print("Image : \("cloud.bolt")")
+                            case 300...321:
+                                print("Image : \("cloud.drizzle")")
+                            case 500...531:
+                                print("Image : \("cloud.rain")")
+                            case 600...622:
+                                print("Image : \("cloud.snow")")
+                            case 701...781:
+                                print("Image : \("cloud.fog")")
+                            case 800:
+                                print("Image : \("sun.max")")
+                            case 801...804:
+                                print("Image : \("cloud.bolt")")
+                            default:
+                                print("Image : \("cloud")")
+                            }
+                        }
+                    } catch {
+                        print("Erreur lors du décodage : \(error)")
+                    }
+                } else {
+                    print("Aucune donnée retournée")
+                }
+            }
+        }
+        tache.resume()
     }
     
     @IBAction func edit(_ sender: UIBarButtonItem) {
