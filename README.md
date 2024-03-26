@@ -32,6 +32,18 @@ Une fois en mode édition, le plan et la météo, si affichés, s'éclipsent. Le
 
 Une fois l'édition confirmée, la tâche se met à jour et le mode édition disparaît pour laisser de nouveau place à l'écran de détails de la tâche.
 
+
+
+## API/BD utilisé
+
+On utilisa la même api utilisé en cours pour récupéré la météo, ainsi qu'un CLgeocoder pour récupéré les localisations de nos adresses.
+
+Les données sont sauvegarder via CoreData et une entité Tache qui contient les attributs voulus. La préférence d'affichage pour les tâches terminées est quant-a elle stocker via UserDefault puisqu'il s'agit d'un type primitif et surtout pour expérimenter les 2 façons de faire.
+    
 ## Difficultés rencontrées
 
+Le but de l'application est de faire une todolist, c'est le genre d'application où la prise en main est hyper importante. Donc la première difficulté à été de rendre l'app agréable, en rendant toutes les actions par des gestes ou des visuels classique. De plus rendre la page de détail et de modification identique a rendu difficile l'agencement de la view.
 
+Les tris demandés ont été implémentés, cependant, on a commencé par étudier l'option des NSSortDescriptor pour trier le fetch via CoreData, mais le tri était parfois incorrect, donc on a appliquer le tri directement sur la liste des taches récupéré.
+
+Une autre difficulté a été la vérification de l'adresse. Vérifier qu'une adresse existe est assez variable avec CLGeocoder puisque même avec une adresse très peu précise il peut trouver une adresse et une localisation. Donc on a permis à l'utilisateur de rentré l'adresse voulu et si l'adresse n'est pas la bonne il peut la modifier dans sa tache.
