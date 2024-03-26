@@ -89,7 +89,7 @@ class TaskListViewController: UIViewController  {
     
     func dateSort() {
         // Tri d'abord par date.
-        tasks.sort{ $0.date! < $1.date! }
+        tasks.sort{ $0.date < $1.date }
         // Puis tri sur le caractère terminé ou non.
         tasks.sort{ !$0.isDone && $1.isDone }
     }
@@ -126,12 +126,12 @@ extension TaskListViewController: UITableViewDelegate, UITableViewDataSource {
         
         // Titre de la cellule.
         let task: Task = tasks[indexPath.row]
-        cell.textLabel?.text = task.titre
+        cell.textLabel?.text = task.title
         
         // Sous-titre (label de détail) de la cellule.
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd:MM:yyyy HH:mm"
-        let dateString = dateFormatter.string(from: task.date!)
+        let dateString = dateFormatter.string(from: task.date)
         cell.detailTextLabel?.text = dateString
         
         // Points d'exclamation selon si la tâche est importante.

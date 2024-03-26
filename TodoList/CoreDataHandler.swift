@@ -15,28 +15,27 @@ class CoreDataHandler {
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     func createTask(
-        titre: String,
+        title: String,
         description: String?,
-        adresse: String?,
-        cp : String?,
-        ville: String?,
-        pays: String?,
-        completeAdress: String?,
         date: Date,
-        isImportant: Bool
+        isImportant: Bool,
+        streetAndNumber: String?,
+        postalCode : String?,
+        city: String?,
+        country: String?
     ) {
         let taskToSave = Task(context: context)
-        taskToSave.titre = titre
+        taskToSave.title = title
         taskToSave.desc = description
-        taskToSave.adresse = adresse
-        taskToSave.codePostal = cp
-        taskToSave.ville = ville
-        taskToSave.pays = pays
+        taskToSave.streetAndNumber = streetAndNumber
+        taskToSave.postalCode = postalCode
+        taskToSave.city = city
+        taskToSave.country = country
         taskToSave.date = date
         taskToSave.isImportant = isImportant
         
-        taskToSave.dateCreation = Date.now
-        taskToSave.dateModif = Date.now
+        taskToSave.creationDate = Date.now
+        taskToSave.editionDate = Date.now
         
         do {
             try context.save()
@@ -61,27 +60,25 @@ class CoreDataHandler {
     
     func updateTask(
         task: Task,
-        newTitre: String,
-        newDesc: String,
+        newTitle: String,
+        newDescription: String?,
         newDate: Date,
-        newAdresse: String?,
+        newIsImportant: Bool,
+        newStreetAndNumber: String?,
         newCity: String?,
         newCountry: String?,
-        newPostalCode: String?,
-        newCompleteAdress: String?,
-        newImportant: Bool
+        newPostalCode: String?
     ) {
-        task.titre = newTitre
-        task.desc = newDesc
+        task.title = newTitle
+        task.desc = newDescription
         task.date = newDate
-        task.adresse = newAdresse
-        task.ville = newCity
-        task.pays = newCountry
-        task.codePostal = newPostalCode
-        task.completeAdress = newCompleteAdress
-        task.isImportant = newImportant
+        task.isImportant = newIsImportant
+        task.streetAndNumber = newStreetAndNumber
+        task.postalCode = newPostalCode
+        task.city = newCity
+        task.country = newCountry
         
-        task.dateModif = Date.now
+        task.editionDate = Date.now
         do {
             try context.save()
         } catch {

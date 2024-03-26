@@ -66,7 +66,7 @@ class ViewTaskViewController: UIViewController, UITextViewDelegate {
     func reloadView(){
         UIView.animate(withDuration: 0.5) { [self] in
             // Titre.
-            taskTitle.text = task?.titre
+            taskTitle.text = task?.title
             taskTitle.isEnabled = false
             
             // Description.
@@ -100,13 +100,13 @@ class ViewTaskViewController: UIViewController, UITextViewDelegate {
             
             // Adresse.
             addressOutlets.append(streetAndNumberAddress)
-            streetAndNumberAddress.text = task?.adresse
+            streetAndNumberAddress.text = task?.streetAndNumber
             addressOutlets.append(postalCodeAddress)
-            postalCodeAddress.text = task?.codePostal
+            postalCodeAddress.text = task?.postalCode
             addressOutlets.append(cityAddress)
-            cityAddress.text = task?.ville
+            cityAddress.text = task?.city
             addressOutlets.append(countryAddress)
-            countryAddress.text = task?.pays
+            countryAddress.text = task?.country
             
             UIView.animate(withDuration: 0.6) { [self] in
                 addressOutlets.forEach { outlet in
@@ -123,12 +123,12 @@ class ViewTaskViewController: UIViewController, UITextViewDelegate {
                 mapView.isHidden = true
             } else {
                 mapView.isHidden = false
-                GeolocHandler.shared.forwardGeocoding(address: (task?.adresse)!) { [self] location in
+                GeolocHandler.shared.forwardGeocoding(address: (task?.streetAndNumber)!) { [self] location in
                     if let location = location {
                         let annotation = MKPointAnnotation()
                         annotation.coordinate = location.coordinate
-                        annotation.title = task?.titre
-                        annotation.subtitle = task?.adresse
+                        annotation.title = task?.title
+                        annotation.subtitle = task?.streetAndNumber
                         let regionRadius: CLLocationDistance = 1000
                         let coordinateRegion = MKCoordinateRegion(
                             center: location.coordinate,
@@ -144,9 +144,9 @@ class ViewTaskViewController: UIViewController, UITextViewDelegate {
     }
     
     func isAddressGiven() -> Bool {
-        if (task?.adresse == nil || task?.codePostal == nil || task?.ville == nil || task?.pays == nil) {
+        if (task?.streetAndNumber == nil || task?.postalCode == nil || task?.city == nil || task?.country == nil) {
             return false
-        } else if (task?.adresse == "" || task?.codePostal == "" || task?.ville == "" || task?.pays == "") {
+        } else if (task?.streetAndNumber == "" || task?.postalCode == "" || task?.city == "" || task?.country == "") {
             return false
         }
         
@@ -238,10 +238,9 @@ class ViewTaskViewController: UIViewController, UITextViewDelegate {
         // Adresse...
         // Soit les 4 champs sont non nuls, soit ils sont tous nuls.
         if (streetAndNumberAddress.text != "" && postalCodeAddress.text != "" && cityAddress.text != "" && countryAddress.text != "") {
-            // Vérification que l'adresse complète est bien valide.
-            GeolocHandler.shared.forwardGeocoding(
-                address: streetAndNumberAddress.text + ", " + postalCodeAddress.text + " " + cityAddress.text + " " + countryAddress.text
-            ) { [self] location in
+            // Vérification que l'adresse complète est bien valide. TODO: NE MARCHE PAS (tout est toujours valide).
+            let completeAddress = streetAndNumberAddress.text! + ", " + postalCodeAddress.text! + " " + cityAddress.text! + " " + countryAddress.text!
+            GeolocHandler.shared.forwardGeocoding(address: completeAddress) { [self] location in
                 if location == nil {
                     AlertPopupHelper.shared.popupAlert(
                         titre: "Localisation introuvable",
@@ -262,15 +261,14 @@ class ViewTaskViewController: UIViewController, UITextViewDelegate {
         
         CoreDataHandler.shared.updateTask(
             task: task!,
-            newTitre: taskTitle.text,
-            newDesc: taskDescription.text,
+            newTitle: taskTitle.text!,
+            newDescription: taskDescription.text,
             newDate: dueDate.date,
-            newAdresse: streetAndNumberAddress.text,
+            newIsImportant: importantSwitch.isOn,
+            newStreetAndNumber: streetAndNumberAddress.text,
             newCity: cityAddress.text,
             newCountry: countryAddress.text,
-            newPostalCode: postalCodeAddress.text,
-            newCompleteAdress: streetAndNumberAddress.text + ", " + postalCodeAddress.text + " " + cityAddress.text + " " + countryAddress.text,
-            newImportant: importantSwitch.isOn
+            newPostalCode: postalCodeAddress.text
         )
         
         AlertPopupHelper.shared.showAlert(

@@ -133,7 +133,16 @@ class AddTaskViewController: UIViewController, UITextFieldDelegate, UITextViewDe
         let completeAdress = adr + ", " + cp +  " " + ville + " " + pays
         
         if (!hasAdress.isOn){
-            CoreDataHandler.shared.createTask(titre: titre, description: description, adresse: "",cp: "", ville: "", pays: "", completeAdress: "", date: dateEcheance.date, isImportant: isImportant.isOn)
+            CoreDataHandler.shared.createTask(
+                title: titre,
+                description: description,
+                date: dateEcheance.date,
+                isImportant: isImportant.isOn,
+                streetAndNumber: nil,
+                postalCode: nil,
+                city: nil,
+                country: nil
+            )
             DispatchQueue.main.async {
                 self.navigationController?.popViewController(animated: true)
             }
@@ -144,7 +153,16 @@ class AddTaskViewController: UIViewController, UITextFieldDelegate, UITextViewDe
             if let location = location {
                 print("location : \(location)")
                 
-                CoreDataHandler.shared.createTask(titre: titre, description: description, adresse: adr,cp: cp,ville: ville, pays: pays, completeAdress: completeAdress, date: dateEcheance.date, isImportant: isImportant.isOn)
+                CoreDataHandler.shared.createTask(
+                    title: titre,
+                    description: description,
+                    date: dateEcheance.date,
+                    isImportant: isImportant.isOn,
+                    streetAndNumber: adr,
+                    postalCode: cp,
+                    city: ville,
+                    country: pays
+                )
                 
                 DispatchQueue.main.async {
                     self.navigationController?.popViewController(animated: true)
